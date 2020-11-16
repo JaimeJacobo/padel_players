@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+
 const bodyParser = require('body-parser')
 
 const Player = require('./models/Player.js');
@@ -30,6 +31,16 @@ mongoose
 //Configuracion del body parser
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", '*');
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+  next();
+});
+
+app.use(cors()); // <---- use cors middleware
+
 app.get('/', (req, res) => {
 	Player.find({})
 		.then((result) => {
@@ -41,9 +52,10 @@ app.get('/', (req, res) => {
 });
 
 app.post('/new-player', (req, res) => {
-  Player.create(req.body)
-    .then(() => res.status(200).redirect('/'))
-    .catch((err) => console.log(err))
+  // Player.create(req.body)
+  //   .then(() => res.status(200).redirect('/'))
+  //   .catch((err) => console.log(err))
+  console.log(req.body)
 });
 
 app.listen(PORT);
