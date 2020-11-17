@@ -39,8 +39,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.use(cors()); // <---- use cors middleware
-
 app.get('/', (req, res) => {
 	Player.find({})
 		.then((result) => {
@@ -51,11 +49,38 @@ app.get('/', (req, res) => {
 		});
 });
 
+app.get('/one-player/:name', (req, res)=>{
+
+	const name = req.params.name
+
+	Player.findOne({name})
+		.then((result)=>{
+			res.send(result)
+		})
+		.catch((err)=>{
+			res.send(err)
+		})
+
+})
+
+app.get('/ranking/:ranking', (req, res)=>{
+
+	const ranking = req.params.ranking
+
+	Player.findOne({ranking})
+		.then((result)=>{
+			res.send(result)
+		})
+		.catch((err)=>{
+			res.send(err)
+		})
+
+})
+
 app.post('/new-player', (req, res) => {
-  // Player.create(req.body)
-  //   .then(() => res.status(200).redirect('/'))
-  //   .catch((err) => console.log(err))
-  console.log(req.body)
+  Player.create(req.body)
+    .then(() => res.status(200).redirect('/'))
+    .catch((err) => console.log(err))
 });
 
 app.listen(PORT);
