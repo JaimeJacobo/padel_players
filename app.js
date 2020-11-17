@@ -85,7 +85,8 @@ app.post('/new-player', (req, res) => {
 });
 
 app.post('/delete-player', (req, res)=>{
-	const ranking = req.body
+	const ranking = req.body.ranking
+
 	Player.findOneAndRemove({ranking})
 		.then(()=>{
 			res.redirect('/')
