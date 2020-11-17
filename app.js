@@ -84,8 +84,8 @@ app.post('/new-player', (req, res) => {
     .catch((err) => console.log(err))
 });
 
-app.post('/delete-player/:ranking', (req, res)=>{
-	const ranking = req.params.ranking
+app.post('/delete-player', (req, res)=>{
+	const ranking = req.body
 	Player.findOneAndRemove({ranking})
 		.then(()=>{
 			res.redirect('/')
