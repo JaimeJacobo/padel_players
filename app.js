@@ -39,7 +39,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(cors()); // <---- use cors middleware
+// app.use(cors()); // <---- use cors middleware
 
 app.get('/', (req, res) => {
 	Player.find({})
