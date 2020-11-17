@@ -17,7 +17,8 @@ const url = `mongodb+srv://pablopablo:ejemplo1234@cluster0.rzksh.mongodb.net/eje
 const connectionParams = {
 	useNewUrlParser: true,
 	useCreateIndex: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+	useFindAndModify: false
 };
 mongoose
 	.connect(url, connectionParams)
@@ -82,5 +83,28 @@ app.post('/new-player', (req, res) => {
     .then(() => res.status(200).redirect('/'))
     .catch((err) => console.log(err))
 });
+
+app.post('/delete-player/:ranking', (req, res)=>{
+	const ranking = req.params.ranking
+	Player.findOneAndRemove({ranking})
+		.then(()=>{
+			res.redirect('/')
+		})
+		.catch((err)=>{
+			res.send(err)
+		})
+})
+
+app.post('/edit-player/:ranking', (req, res)=>{
+	const ranking = req.params.ranking
+
+	Player.findOneAndUpdate({ranking},  req.body)
+		.then(()=>{
+			res.redirect('/')
+		})
+		.catch((err)=>{
+			res.send(err)
+	})
+})
 
 app.listen(PORT);
